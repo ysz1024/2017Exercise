@@ -8,11 +8,24 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomePageViewController: UIViewController {
+    
+    var width:CGFloat!
+    var images:Array<UIImage> = []
+    var collectionView:UICollectionView!
+    var maskView:UIView!
+    var cellRect:CGRect!
+    var changeRect:CGRect!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    private func waterfallCollectionView(){
+        width = (view.bounds.size.width - 20)/3
+        
     }
 
     override func didReceiveMemoryWarning() {
