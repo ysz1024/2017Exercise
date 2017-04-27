@@ -99,7 +99,7 @@
 				TargetAttributes = {
 					8625895D1EB1D580004CCA65 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 6525DV2M7X;
+						DevelopmentTeam = 5GPK3ZA46R;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -263,7 +263,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6525DV2M7X;
+				DEVELOPMENT_TEAM = 5GPK3ZA46R;
 				INFOPLIST_FILE = 2017Exercise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yuansizeng.-017Exercise";
@@ -276,7 +276,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6525DV2M7X;
+				DEVELOPMENT_TEAM = 5GPK3ZA46R;
 				INFOPLIST_FILE = 2017Exercise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yuansizeng.-017Exercise";
