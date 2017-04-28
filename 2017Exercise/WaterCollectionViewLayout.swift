@@ -44,8 +44,9 @@ class WaterCollectionViewLayout: UICollectionViewLayout {
         var nub:CGFloat = 0
         var h:CGFloat = 0
         (nub,h)= minH(hhs: hs)
-        attributes.center = CGPoint(x: (nub+0.5)*(gap+width), y: <#T##CGFloat#>)
+        attributes.center = CGPoint(x: ((nub+1)*gap + nub*width), y: h+(width/attributes.size))
     
+        
         
     }
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
