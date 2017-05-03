@@ -14,10 +14,10 @@ class MapViewController: UIViewController {
 
     @IBOutlet var customMapView: MKMapView!
     //定位管理器
-    private lazy var location:CLLocationManager = CLLocationManager()
+    private lazy var locationManager:CLLocationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        location.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         self.customMapView.showsPointsOfInterest = true
         self.customMapView.showsUserLocation = true
         self.customMapView.userTrackingMode = .followWithHeading
@@ -28,9 +28,15 @@ class MapViewController: UIViewController {
         self.customMapView.mapType = .standard
         
         //创建MKCoordinateSpan对象，设置地图范围（越小越精确）
-        let latDelta = 0.05
-        let longDelta = 0.05
-        let currentLocationSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
+//        let latDelta = 0.05
+//        let longDelta = 0.05
+//        let currentLocationSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
+//        
+//        let center:CLLocation = locationManager.location?.coordinate
+//        let currentRegion:MKCoordinateRegion = MKCoordinateRegion(center: center.coordinate, span: currentLocationSpan)
+//        
+//        
+//        self.customMapView.setRegion(currentRegion, animated: true)
         
         
 //        self.customMapView.showsCompass = true
@@ -51,23 +57,32 @@ class MapViewController: UIViewController {
     }
     
 }
-//    extension MapViewController: MKMapViewDelegate {
-//        //当地图获取到用户的位置的时候回调用该方法
-//        func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-//            userLocation.title = ""
-//            userLocation.subtitle = ""
-//            let center = userLocation.location?.coordinate
+    extension MapViewController: MKMapViewDelegate {
+        //当地图获取到用户的位置的时候回调用该方法
+        func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+            
+            let center = userLocation.location?.coordinate
 //            customMapView.setCenter(center!, animated: true)
-//            
-//            //改变显示区域
-//            let span = MKCoordinateSpanMake(2.2, 48.52)
-//            let region = MKCoordinateRegionMake(center!, span)
-//            mapView.setRegion(region, animated: true)
-//            
-//        }
-//    }
-    
+            
+            //改变显示区域
+//            创建MKCoordinateSpan对象，设置地图范围（越小越精确）
+            let latDelta = 0.05
+            let longDelta = 0.05
+            let currentLocationSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
+            let currentRegion:MKCoordinateRegion = MKCoordinateRegion(center: center!, span: currentLocationSpan)
+            //设置显示区域
+            customMapView.setRegion(currentRegion, animated: true)
+            
+            //设置大头针
+            let objectAnnotation = MKPointAnnotation()
+            objectAnnotation.coordinate = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude).coordinate
+            objectAnnotation.title = "I am here"
+            objectAnnotation.subtitle = "1111111"
+            self.customMapView.addAnnotation(objectAnnotation)
+            
+    }
 
+}
     
 
     /*
