@@ -27,25 +27,7 @@ class MapViewController: UIViewController {
         }
         self.customMapView.mapType = .standard
         
-        //创建MKCoordinateSpan对象，设置地图范围（越小越精确）
-//        let latDelta = 0.05
-//        let longDelta = 0.05
-//        let currentLocationSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
-//        
-//        let center:CLLocation = locationManager.location?.coordinate
-//        let currentRegion:MKCoordinateRegion = MKCoordinateRegion(center: center.coordinate, span: currentLocationSpan)
-//        
-//        
-//        self.customMapView.setRegion(currentRegion, animated: true)
-        
-        
-//        self.customMapView.showsCompass = true
-//        self.customMapView.showsBuildings = true
-//        self.customMapView.showsTraffic = true
-//        
-//        self.customMapView.isZoomEnabled = true
-//        self.customMapView.isRotateEnabled = true
-//        self.customMapView.isScrollEnabled = true
+        ///        self.customMapView.isScrollEnabled = true
         
         // Do any additional setup after loading the view.
     }
@@ -79,9 +61,19 @@ class MapViewController: UIViewController {
             objectAnnotation.title = "I am here"
             objectAnnotation.subtitle = "1111111"
             self.customMapView.addAnnotation(objectAnnotation)
-            
-    }
-
+        }
+        
+            func mapView(_ mapView: MKMapView, viewFor: MKAnnotation) -> MKAnnotationView? {
+                let identifier = "Pin"
+                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                if annotationView == nil{
+                    annotationView = MKAnnotationView(annotation: annotationView as! MKAnnotation?, reuseIdentifier: identifier)
+                }
+                annotationView?.annotation = annotation
+                
+                
+                
+            }
 }
     
 
