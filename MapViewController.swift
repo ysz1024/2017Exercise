@@ -24,7 +24,7 @@ class MapViewController: UIViewController {
         requestLocationAccess()
         self.customMapView.showsPointsOfInterest = true
         self.customMapView.showsUserLocation = true
-        self.customMapView.userTrackingMode = .followWithHeading
+        self.customMapView.userTrackingMode = .follow
         //地图类型
         if #available(iOS 9.0, *) {
             self.customMapView.mapType = .hybridFlyover
@@ -34,12 +34,13 @@ class MapViewController: UIViewController {
         ///        self.customMapView.isScrollEnabled = true
         
         // Do any additional setup after loading the view.
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let point = touches.first?.location(in: customMapView)
         let coordinate = customMapView.convert(point!, toCoordinateFrom: customMapView)
-        let annotation = addAnnotation(coordinate: coordinate, title: "", subTitle: "")
+        let annotation = addAnnotation(coordinate: coordinate, title: "sss", subTitle: "ssss")
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         geoc.reverseGeocodeLocation(location) { (clpls, Error) in
             if Error.self != nil{
@@ -49,6 +50,7 @@ class MapViewController: UIViewController {
             guard let clpl = clpls?.first else {return}
             
             annotation.title = clpl.locality
+            
         }
     }
     
@@ -64,20 +66,6 @@ class MapViewController: UIViewController {
         }
     }
     
-    
-    
-//    func addAnnotation(coordinate :CLLocationCoordinate2D, title :String, subTitle :String) ->CHAnnotation{
-//        // 1.创建一个大头针
-//        let annotation = CHAnnotation()
-//        // 2.确定大头针的经纬度(在地图上显示的位置)
-//        annotation.coordinate = coordinate
-//        // 3.设置标题和子标题
-//        annotation.title = title
-//        annotation.subtitle = subTitle
-//        // 4.添加到地图上
-//        mapView.addAnnotation(annotation)
-//        return annotation
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -102,25 +90,46 @@ class MapViewController: UIViewController {
             customMapView.setRegion(currentRegion, animated: true)
             
             //设置大头针
-            let objectAnnotation = MKPointAnnotation()
-            objectAnnotation.coordinate = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude).coordinate
+            let objectAnnotation = TGAnnotation()
+//            objectAnnotation.coordinate = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude).coordinate
             objectAnnotation.title = "I am here"
             objectAnnotation.subtitle = "1111111"
             self.customMapView.addAnnotation(objectAnnotation)
+            
         }
         
-//            func mapView(_ mapView: MKMapView, viewFor: MKAnnotation) -> MKAnnotationView? {
-//                let identifier = "Pin"
-//                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//                if annotationView == nil{
-//                    annotationView = MKAnnotationView(annotation: annotationView as! MKAnnotation?, reuseIdentifier: identifier)
-//                }
-////                annotationView?.annotation = annotation
-//        }
+        func  mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//            if annotation is MKUserLocation{
+//                return nil
+//            }
+            let reuserId = "pin"
+            var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuserId)
+                as? MKPinAnnotationView
+            
+            if pinView == nil {
+                //创建一个大头针视图
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuserId)
+                pinView?.canShowCallout = true
+                pinView?.animatesDrop = true
+                
+                //设置大头针颜色
+                pinView?.pinTintColor = UIColor.blue
+                //设置大头针点击注释视图的右侧按钮样式
+                pinView?.rightCalloutAccessoryView = UIButton(type: .custom)
+                            }else{
+                pinView?.annotation = annotation
+                
+
+            }
+            pinView?.isDraggable = true
+            return pinView
+
         
-        func addAnnotation(coordinate :CLLocationCoordinate2D, title :String, subTitle :String) -> MKPointAnnotation{
+        }
+        
+        func addAnnotation(coordinate :CLLocationCoordinate2D, title :String, subTitle :String) -> TGAnnotation{
             // 1.创建一个大头针
-            let annotation = MKPointAnnotation()
+            let annotation:TGAnnotation = TGAnnotation()
             // 2.确定大头针的经纬度(在地图上显示的位置)
             annotation.coordinate = coordinate
             // 3.设置标题和子标题
@@ -129,7 +138,15 @@ class MapViewController: UIViewController {
             // 4.添加到地图上
             customMapView.addAnnotation(annotation)
             return annotation
-        }}
+        }
+        
+        
+        class TGAnnotation: NSObject, MKAnnotation {
+            var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+            var title: String?
+            var subtitle: String?
+        }
+}
     
 
     /*
